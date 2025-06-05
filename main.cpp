@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <random>
-#include <memory>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -25,26 +25,44 @@ struct Interval {
     }
 };
 
-void get_random_interval_numbers(Interval interval) {
-    // Function: get_random_interval_numbers(interval)
-    //if interval.min == interval.max:
-    //    print(interval.min)
-    //    return
-
-    //middle = random_number_between(interval.min, interval.max)
-
-    //left = Interval(interval.min, middle - 1)
-    //right = Interval(middle + 1, interval.max)
-
-    //get_random_interval_numbers(left)
-    //print(middle)
-    //get_random_interval_numbers(right)
+int random_number_between(int min, int max) {
+    static random_device rd;
+    static mt19937 rng(rd());
+    uniform_int_distribution<int>dist(min, max);
+    return dist(rng);
 }
 
-int main() {
-    struct Interval i = { 1, 8 };
+void get_random_interval_numbers(Interval interval, vector<int>& result) {
+    if (interval.min > interval.max) return;
+     
+    if (interval.min == interval.max) {
+        cout << interval.min << " ";
+             
+    }
 
-    get_random_interval_numbers(i);
+    int middle = random_number_between(interval.min, interval.max);
+
+    while (result.count,(middle)) {
+        middle = random_number_between(interval.min, interval.max);
+    } 
+    
+    Interval left(interval.min, middle -1);
+    Interval right(middle +1, interval.max);
+    get_random_interval_numbers(left, result);
+    cout << middle << " ";
+    get_random_interval_numbers(right, result);
+
+    } 
+
+int main() {
+    struct Interval i = { 1, 8};
+    vector<int> result;
+
+    get_random_interval_numbers(i, result);
+
+    for (int num : result) {
+        cout << num << " ";
+    }
 
     return 0;
 }
